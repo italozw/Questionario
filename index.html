@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechMatch | Avaliação de Perfil Software House</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 10px;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Decorative Background Elements -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div class="absolute -top-[40%] -right-[20%] w-[80%] h-[80%] rounded-full bg-indigo-500/10 blur-[120px]"></div>
+        <div class="absolute -bottom-[40%] -left-[20%] w-[80%] h-[80%] rounded-full bg-emerald-500/10 blur-[120px]"></div>
+        <div class="absolute top-[30%] left-[30%] w-[40%] h-[40%] rounded-full bg-violet-500/5 blur-[100px]"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="glass-panel sticky top-0 z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="app.reset()">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    </svg>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">
+                    Synthesis Software House
+                </span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span id="header-progress" class="hidden text-xs font-semibold text-slate-400 bg-slate-800/50 px-3 py-1 rounded-full border border-slate-700/50">
+                    Questão: 1/15
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 sm:py-12 flex flex-col justify-center">
+
+        <!-- STEP 1: HOME -->
+        <section id="step-home" class="space-y-12 animate-fade-in">
+            <div class="glass-panel rounded-3xl p-8 sm:p-14 border border-slate-800 relative overflow-hidden text-center sm:text-left">
+                <div class="max-w-3xl space-y-6">
+                    <span class="inline-flex items-center gap-1.5 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase">
+                        Diagnóstico de Persona Tech
+                    </span>
+                    <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-none">
+                        Qual o seu lugar numa <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-emerald-400">Software House</span>?
+                    </h1>
+                    <p class="text-slate-400 text-base sm:text-lg leading-relaxed max-w-2xl">
+                        Descubra suas reais aptidões técnicas e comerciais através de 15 problemas práticos de engenharia, vendas e gestão.
+                    </p>
+                    <div class="pt-4">
+                        <button onclick="app.startQuiz()" class="w-full sm:w-auto bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold px-8 py-4 rounded-2xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transform active:scale-95 transition-all duration-200 cursor-pointer text-lg">
+                            Iniciar Avaliação
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="categories-grid">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- STEP 2: QUIZ -->
+        <section id="step-quiz" class="hidden space-y-8 animate-fade-in">
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-800/50 border border-slate-700/30 h-2.5 rounded-full overflow-hidden">
+                <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-violet-500 h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="glass-card rounded-2xl p-6 sm:p-10 space-y-8">
+                <div class="space-y-2">
+                    <div id="quiz-badge" class="text-indigo-400 font-bold text-sm tracking-wider uppercase">
+                        Questão 1
+                    </div>
+                    <h2 id="quiz-question" class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+                        --
+                    </h2>
+                </div>
+
+                <div id="quiz-options" class="grid grid-cols-1 gap-4">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+
+            <!-- Footer Question navigation -->
+            <div class="flex justify-between items-center">
+                <button onclick="app.prevQuestion()" id="btn-prev" class="px-5 py-3 rounded-xl border border-slate-700 hover:bg-slate-800/50 text-slate-300 font-bold text-sm transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed">
+                    Anterior
+                </button>
+                <button onclick="app.nextQuestion()" id="btn-next" class="hidden px-5 py-3 rounded-xl bg-slate-700 text-slate-300 font-bold text-sm cursor-pointer hover:bg-slate-600 transition">
+                    Pular
+                </button>
+            </div>
+        </section>
+
+        <!-- STEP 3: RESULTS -->
+        <section id="step-results" class="hidden space-y-12 animate-fade-in">
+            <div class="glass-panel rounded-3xl p-6 sm:p-12 border border-slate-800/60 relative overflow-hidden">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+                    <div class="space-y-2">
+                        <span class="inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full text-xs font-bold">
+                            Diagnóstico Concluído
+                        </span>
+                        <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+                            Seu perfil é <span id="result-title" class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-violet-400">--</span>
+                        </h1>
+                    </div>
+                    <button onclick="app.reset()" class="flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-700 hover:bg-slate-800 text-slate-300 font-bold text-sm transition cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        Refazer
+                    </button>
+                </div>
+
+                <div class="mt-8 border-t border-slate-800/60 pt-6">
+                    <p id="result-description" class="text-slate-400 text-base sm:text-lg leading-relaxed max-w-3xl">
+                        --
+                    </p>
+                </div>
+
+                <div class="mt-6 flex flex-wrap gap-2" id="result-skills">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+
+            <!-- Dashboard Analytics -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <!-- Pie Chart Card -->
+                <div class="glass-card rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center space-y-6">
+                    <h3 class="text-lg font-bold text-white tracking-tight text-center">Eixos de Competência</h3>
+                    <div class="relative w-64 h-64 flex items-center justify-center">
+                        <svg id="svg-chart" class="w-full h-full" viewBox="0 0 36 36"></svg>
+                        <!-- Center text -->
+                        <div class="absolute flex flex-col items-center">
+                            <span class="text-xs text-slate-500 font-medium uppercase tracking-wider">Total</span>
+                            <span id="chart-center-val" class="text-2xl font-black text-white">0 pts</span>
+                        </div>
+                    </div>
+                    <div id="chart-legend" class="grid grid-cols-2 gap-x-6 gap-y-2 text-xs font-semibold w-full">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Score Progress Card -->
+                <div class="glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-white tracking-tight">Detalhamento dos Resultados</h3>
+                        <p class="text-slate-400 text-xs mt-1">Pontuação conquistada em cada vertical profissional</p>
+                    </div>
+                    <div id="result-bars" class="space-y-4 flex-grow justify-center flex flex-col">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-panel border-t border-slate-800/40 py-6 text-center text-slate-500 text-xs">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>&copy; 2026 Synthesis. Daniel | Rafael | Italo.</p>
+            <div class="flex items-center space-x-4">
+                <span>Software House</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- App Logic -->
+    <script>
+        // CORE DATA
+        const categories = {
+            frontend: { label: 'Frontend', color: '#3b82f6', description: 'Interfaces visuais e UX' },
+            backend: { label: 'Backend', color: '#10b981', description: 'APIs, lógica e dados' },
+            infra: { label: 'Infra & Cloud', color: '#8b5cf6', description: 'Servidores e DevOps' },
+            sales: { label: 'Vendas & Biz', color: '#f59e0b', description: 'Propostas e fechamentos' },
+            marketing: { label: 'Marketing & SEO', color: '#ef4444', description: 'Aquisição e tráfego' },
+            product: { label: 'Produto & Ágil', color: '#ec4899', description: 'Entregas e gestão' }
+        };
+
+        const questions = [
+            {
+                title: 'No início de um projeto, o que mais te empolga?',
+                choices: [
+                    { text: 'Projetar a interface e o estilo das telas', scores: { frontend: 5 } },
+                    { text: 'Criar diagramas de bancos de dados e APIs', scores: { backend: 5 } },
+                    { text: 'Configurar a pipeline e infraestrutura cloud', scores: { infra: 5 } },
+                    { text: 'Estimar lucros e fechar o valor do projeto', scores: { sales: 5 } },
+                    { text: 'Achar o público-alvo e canais de divulgação', scores: { marketing: 5 } },
+                    { text: 'Organizar as tarefas e metas da equipe', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'Qual dessas ferramentas você considera essencial?',
+                choices: [
+                    { text: 'React, Tailwind CSS e Figma', scores: { frontend: 5 } },
+                    { text: 'Node.js, PostgreSQL e Docker', scores: { backend: 5 } },
+                    { text: 'AWS, Terraform e Kubernetes', scores: { infra: 5 } },
+                    { text: 'HubSpot CRM e Excel', scores: { sales: 5 } },
+                    { text: 'Google Analytics e Ads', scores: { marketing: 5 } },
+                    { text: 'Jira, Trello e Scrum', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'Como você lida com um sistema fora do ar?',
+                choices: [
+                    { text: 'Crio páginas de erro visuais informativas', scores: { frontend: 3 } },
+                    { text: 'Investigo os logs do servidor imediatamente', scores: { backend: 5 } },
+                    { text: 'Subo as máquinas reservas na nuvem', scores: { infra: 5 } },
+                    { text: 'Aviso os clientes afetados com transparência', scores: { sales: 4 } },
+                    { text: 'Avalio o prejuízo de marketing e campanhas', scores: { marketing: 4 } },
+                    { text: 'Direciono a equipe para resolver o problema', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'O cliente pede uma mudança drástica no meio do projeto:',
+                choices: [
+                    { text: 'Redesenho as telas com paciência', scores: { frontend: 4 } },
+                    { text: 'Avalio se as APIs aguentam a mudança', scores: { backend: 4 } },
+                    { text: 'Mapeio custos extras de infraestrutura', scores: { infra: 3 } },
+                    { text: 'Cobro o valor extra através de aditivo', scores: { sales: 5 } },
+                    { text: 'Ajusto os canais de divulgação do produto', scores: { marketing: 3 } },
+                    { text: 'Repriorizo o backlog para o próximo sprint', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'Como você define o sucesso de um software?',
+                choices: [
+                    { text: 'Usabilidade perfeita e design bonito', scores: { frontend: 5 } },
+                    { text: 'Velocidade, segurança e zero bugs', scores: { backend: 5 } },
+                    { text: 'Uptime constante e deploy automático', scores: { infra: 5 } },
+                    { text: 'Faturamento alto e contratos longos', scores: { sales: 5 } },
+                    { text: 'Milhares de visitas e leads gerados', scores: { marketing: 5 } },
+                    { text: 'Clientes satisfeitos e metas batidas', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'O que mais te cansa no trabalho?',
+                choices: [
+                    { text: 'Resolver inconsistências de layout', scores: { frontend: 5 } },
+                    { text: 'Corrigir falhas de integração com sistemas legados', scores: { backend: 5 } },
+                    { text: 'Monitorar servidores de madrugada', scores: { infra: 5 } },
+                    { text: 'Negociar com clientes indecisos', scores: { sales: 5 } },
+                    { text: 'Produzir conteúdo sem retorno', scores: { marketing: 5 } },
+                    { text: 'Reuniões longas e sem foco definido', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'Como você toma decisões difíceis no trabalho?',
+                choices: [
+                    { text: 'Foco na melhor experiência visual do usuário', scores: { frontend: 5 } },
+                    { text: 'Foco na melhor performance técnica do código', scores: { backend: 5 } },
+                    { text: 'Foco no menor custo operacional em nuvem', scores: { infra: 5 } },
+                    { text: 'Foco no maior retorno financeiro imediato', scores: { sales: 5 } },
+                    { text: 'Foco no maior volume de dados de acesso', scores: { marketing: 5 } },
+                    { text: 'Foco no cumprimento de prazos combinados', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'Se pudesse fazer um curso hoje, qual escolheria?',
+                choices: [
+                    { text: 'Design Systems e Animações CSS', scores: { frontend: 5 } },
+                    { text: 'Arquitetura de Microsserviços e APIs', scores: { backend: 5 } },
+                    { text: 'Segurança da Informação e DevOps', scores: { infra: 5 } },
+                    { text: 'Estratégias Avançadas de Negociação', scores: { sales: 5 } },
+                    { text: 'Copywriting e Tráfego Pago Avançado', scores: { marketing: 5 } },
+                    { text: 'Gestão de Produtos Digitais Ágeis', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'Qual a sua postura em relação aos dados?',
+                choices: [
+                    { text: 'Gosto de transformar dados em gráficos visuais', scores: { frontend: 5 } },
+                    { text: 'Gosto de armazenar e processar dados limpos', scores: { backend: 5 } },
+                    { text: 'Gosto de garantir que os dados estejam salvos', scores: { infra: 5 } },
+                    { text: 'Gosto de usar dados para vender melhor', scores: { sales: 5 } },
+                    { text: 'Gosto de usar dados para atrair cliques', scores: { marketing: 5 } },
+                    { text: 'Gosto de usar dados para medir entregas', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'O que você faz nas primeiras horas do dia?',
+                choices: [
+                    { text: 'Reviso o design e os componentes front', scores: { frontend: 5 } },
+                    { text: 'Codifico novas rotas e lógicas de backend', scores: { backend: 5 } },
+                    { text: 'Confiro alertas de servidores e segurança', scores: { infra: 5 } },
+                    { text: 'Agendo chamadas com potenciais clientes', scores: { sales: 5 } },
+                    { text: 'Reviso anúncios e palavras-chave SEO', scores: { marketing: 5 } },
+                    { text: 'Atualizo quadros Kanban e tiro dúvidas', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'Como você ajuda um colega com bloqueio criativo?',
+                choices: [
+                    { text: 'Sugiro referências visuais de alta qualidade', scores: { frontend: 5 } },
+                    { text: 'Ajudo a debugar e criar a lógica do código', scores: { backend: 5 } },
+                    { text: 'Configuro um ambiente limpo para testes', scores: { infra: 4 } },
+                    { text: 'Estimulo a pensar no valor final do produto', scores: { sales: 4 } },
+                    { text: 'Apresento cases de marketing bem-sucedidos', scores: { marketing: 4 } },
+                    { text: 'Divido a tarefa em etapas menores e fáceis', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'Qual o melhor elogio que você pode receber?',
+                choices: [
+                    { text: '"Seu trabalho é muito agradável e bonito"', scores: { frontend: 5 } },
+                    { text: '"Seu código é limpo e muito eficiente"', scores: { backend: 5 } },
+                    { text: '"Seu sistema nunca cai e é muito estável"', scores: { infra: 5 } },
+                    { text: '"Você sabe vender até gelo para pinguim"', scores: { sales: 5 } },
+                    { text: '"Seus textos convertem leads em dinheiro"', scores: { marketing: 5 } },
+                    { text: '"Você entrega projetos sempre no prazo"', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'Um novo funcionário entra na empresa, como o ajuda?',
+                choices: [
+                    { text: 'Ensino as diretrizes de design visual', scores: { frontend: 4 } },
+                    { text: 'Explico a estrutura dos bancos de dados', scores: { backend: 4 } },
+                    { text: 'Mostro as senhas e acessos aos servidores', scores: { infra: 4 } },
+                    { text: 'Apresento os clientes que ele irá atender', scores: { sales: 4 } },
+                    { text: 'Mostro a estratégia de comunicação da marca', scores: { marketing: 4 } },
+                    { text: 'Integro ele ao fluxo de trabalho ágil', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'Em um projeto voluntário, qual a sua função?',
+                choices: [
+                    { text: 'Montar o site ou landing page visual', scores: { frontend: 5 } },
+                    { text: 'Configurar sistemas e salvamento seguro', scores: { backend: 5 } },
+                    { text: 'Cuidar da hospedagem e domínios web', scores: { infra: 5 } },
+                    { text: 'Levantar fundos e patrocínios vitais', scores: { sales: 5 } },
+                    { text: 'Divulgar a causa nas redes e mídias', scores: { marketing: 5 } },
+                    { text: 'Liderar o cronograma de ações sociais', scores: { product: 5 } }
+                ]
+            },
+            {
+                title: 'Onde você se imagina em 5 anos?',
+                choices: [
+                    { text: 'Liderando equipes de UI/UX modernos', scores: { frontend: 5 } },
+                    { text: 'Como arquiteto técnico sênior global', scores: { backend: 5 } },
+                    { text: 'Gerenciando infraestruturas massivas cloud', scores: { infra: 5 } },
+                    { text: 'Sócio-diretor comercial da empresa', scores: { sales: 5 } },
+                    { text: 'Liderando agências de marketing e SEO', scores: { marketing: 5 } },
+                    { text: 'Diretor de Operações e Gestão de Produtos', scores: { product: 5 } }
+                ]
+            }
+        ];
+
+        const personas = {
+            frontend: { title: 'Desenvolvedor Frontend', desc: 'Você é responsável por trazer a vida visual do software, unindo arte, usabilidade e tecnologia na ponta dos dedos do usuário.', skills: ['React/Vue', 'CSS Avançado', 'Design System', 'UI/UX'] },
+            backend: { title: 'Desenvolvedor Backend', desc: 'Você é a inteligência por trás dos panos. Cria soluções robustas, seguras e extremamente ágeis para o processamento de regras corporativas.', skills: ['Lógica de APIs', 'Bancos de Dados', 'Clean Architecture', 'Segurança'] },
+            infra: { title: 'Especialista em Cloud / DevOps', desc: 'O guardião do ar. Garante que os sistemas funcionem sem parar, escalem automaticamente e sobrevivam a picos intensos de acessos.', skills: ['AWS/Azure', 'Docker/Kubernetes', 'CI/CD Pipelines', 'Automação'] },
+            sales: { title: 'Consultor de Vendas B2B', desc: 'O motor financeiro da empresa. Conecta dores corporativas a soluções em software, gerando parcerias lucrativas e sustentáveis.', skills: ['Prospecção', 'Negociação', 'Gestão de CRM', 'Contratos'] },
+            marketing: { title: 'Analista de Marketing Digital', desc: 'O mestre da atenção. Sabe como posicionar o produto nos buscadores, gerar tráfego orgânico/pago e convertê-los em faturamento real.', skills: ['SEO Técnico', 'Tráfego Pago', 'Analytics', 'Inbound Mkt'] },
+            product: { title: 'Gerente de Produto / Scrum Master', desc: 'O maestro operacional. Traduz sonhos de clientes em entregas consistentes, mantendo a equipe focada, unida e produtiva.', skills: ['Metodologias Ágeis', 'Product Backlog', 'Priorização', 'Liderança'] }
+        };
+
+        // APP STATE
+        const state = {
+            currentStep: 0, // 0: Home, 1: Quiz, 2: Results
+            currentQuestionIdx: 0,
+            userScores: { frontend: 0, backend: 0, infra: 0, sales: 0, marketing: 0, product: 0 },
+            answers: [] // Stores chosen index for each question
+        };
+
+        // DOM ELEMENTS & UTILS
+        const $ = (id) => document.getElementById(id);
+        const hide = (id) => $(id).classList.add('hidden');
+        const show = (id) => $(id).classList.remove('hidden');
+
+        // APP CONTROLLER
+        const app = {
+            init() {
+                this.renderCategoriesHome();
+                this.updateView();
+            },
+
+            startQuiz() {
+                state.currentStep = 1;
+                state.currentQuestionIdx = 0;
+                state.userScores = { frontend: 0, backend: 0, infra: 0, sales: 0, marketing: 0, product: 0 };
+                state.answers = new Array(questions.length).fill(null);
+                this.updateView();
+                this.renderQuestion();
+            },
+
+            renderCategoriesHome() {
+                const grid = $('categories-grid');
+                grid.innerHTML = Object.entries(categories).map(([key, cat]) => `
+                    <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white" style="background-color: ${cat.color}">
+                                <span class="font-black text-xs">${cat.label[0]}</span>
+                            </div>
+                            <h3 class="font-bold text-white text-base">${cat.label}</h3>
+                            <p class="text-slate-500 text-xs">${cat.description}</p>
+                        </div>
+                    </div>
+                `).join('');
+            },
+
+            renderQuestion() {
+                const q = questions[state.currentQuestionIdx];
+                $('quiz-badge').innerText = `Questão ${state.currentQuestionIdx + 1} de ${questions.length}`;
+                $('quiz-question').innerText = q.title;
+                $('header-progress').innerText = `Questão: ${state.currentQuestionIdx + 1}/${questions.length}`;
+
+                const optionsContainer = $('quiz-options');
+                optionsContainer.innerHTML = q.choices.map((choice, index) => {
+                    const isSelected = state.answers[state.currentQuestionIdx] === index;
+                    return `
+                        <button onclick="app.selectOption(${index})" class="text-left p-4 rounded-xl border flex items-center gap-4 cursor-pointer transition-all duration-200 ${isSelected ? 'border-indigo-500 bg-indigo-500/10 text-white ring-2 ring-indigo-500/20' : 'border-slate-800 hover:border-slate-700 hover:bg-slate-800/40 text-slate-300'}">
+                            <div class="w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0 ${isSelected ? 'border-indigo-500 bg-indigo-500' : 'border-slate-600'}">
+                                ${isSelected ? '<svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 5"></path></svg>' : ''}
+                            </div>
+                            <span class="text-sm sm:text-base font-medium">${choice.text}</span>
+                        </button>
+                    `;
+                }).join('');
+
+                // Progress Bar
+                const percent = ((state.currentQuestionIdx + 1) / questions.length) * 100;
+                $('progress-bar').style.width = `${percent}%`;
+
+                // Prev button visibility
+                if (state.currentQuestionIdx === 0) {
+                    $('btn-prev').setAttribute('disabled', 'true');
+                } else {
+                    $('btn-prev').removeAttribute('disabled');
+                }
+            },
+
+            selectOption(choiceIdx) {
+                state.answers[state.currentQuestionIdx] = choiceIdx;
+                this.renderQuestion();
+                
+                // Automatically advance after a short timeout for smooth feel
+                setTimeout(() => {
+                    this.nextQuestion();
+                }, 200);
+            },
+
+            nextQuestion() {
+                if (state.answers[state.currentQuestionIdx] === null) return; // Answer required
+                
+                if (state.currentQuestionIdx < questions.length - 1) {
+                    state.currentQuestionIdx++;
+                    this.renderQuestion();
+                } else {
+                    this.calculateResults();
+                }
+            },
+
+            prevQuestion() {
+                if (state.currentQuestionIdx > 0) {
+                    state.currentQuestionIdx--;
+                    this.renderQuestion();
+                }
+            },
+
+            calculateResults() {
+                // Clear initial scores
+                Object.keys(state.userScores).forEach(k => state.userScores[k] = 0);
+
+                // Sum up points
+                state.answers.forEach((choiceIdx, qIdx) => {
+                    const choice = questions[qIdx].choices[choiceIdx];
+                    if (choice && choice.scores) {
+                        Object.entries(choice.scores).forEach(([catKey, pts]) => {
+                            state.userScores[catKey] += pts;
+                        });
+                    }
+                });
+
+                state.currentStep = 2;
+                this.updateView();
+                this.renderResults();
+            },
+
+            renderResults() {
+                // Find top persona
+                let topCat = 'frontend';
+                let maxPts = -1;
+                Object.entries(state.userScores).forEach(([catKey, pts]) => {
+                    if (pts > maxPts) {
+                        maxPts = pts;
+                        topCat = catKey;
+                    }
+                });
+
+                const persona = personas[topCat];
+                $('result-title').innerText = persona.title;
+                $('result-description').innerText = persona.desc;
+                $('result-skills').innerHTML = persona.skills.map(s => `
+                    <span class="text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700/60 px-3 py-1.5 rounded-lg">${s}</span>
+                `).join('');
+
+                // Render Chart SVG (Pie Chart)
+                const svg = $('svg-chart');
+                const totalPoints = Object.values(state.userScores).reduce((a, b) => a + b, 0);
+                $('chart-center-val').innerText = `${totalPoints} pts`;
+
+                let currentPercentage = 0;
+                let svgPaths = '';
+                let legendHtml = '';
+                let barsHtml = '';
+
+                // Calculate cumulative slices
+                Object.entries(categories).forEach(([key, cat]) => {
+                    const pts = state.userScores[key];
+                    const percent = totalPoints > 0 ? pts / totalPoints : 0;
+                    
+                    if (percent > 0) {
+                        // Drawing a donut slice in SVG
+                        const startAngle = currentPercentage * 360;
+                        currentPercentage += percent;
+                        const endAngle = currentPercentage * 360;
+
+                        const x1 = 18 + 12 * Math.cos((startAngle - 90) * Math.PI / 180);
+                        const y1 = 18 + 12 * Math.sin((startAngle - 90) * Math.PI / 180);
+                        const x2 = 18 + 12 * Math.cos((endAngle - 90) * Math.PI / 180);
+                        const y2 = 18 + 12 * Math.sin((endAngle - 90) * Math.PI / 180);
+
+                        const largeArcFlag = percent > 0.5 ? 1 : 0;
+
+                        svgPaths += `<path d="M 18 18 L ${x1} ${y1} A 12 12 0 ${largeArcFlag} 1 ${x2} ${y2} Z" fill="${cat.color}" stroke="#0f172a" stroke-width="0.3"></path>`;
+                    }
+
+                    // Legend builder
+                    legendHtml += `
+                        <div class="flex items-center gap-1.5 text-slate-300">
+                            <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: ${cat.color}"></span>
+                            <span class="truncate">${cat.label}</span>
+                        </div>
+                    `;
+
+                    // Bars builder
+                    const maxPossible = 15 * 5; // 15 questions * 5 points
+                    const barWidth = Math.min(100, (pts / 15) * 100);
+                    barsHtml += `
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span class="text-slate-300">${cat.label}</span>
+                                <span style="color: ${cat.color}">${pts} pts</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                <div class="h-full rounded-full transition-all duration-500" style="background-color: ${cat.color}; width: ${barWidth}%"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Render Center Circle to simulate Donut
+                svgPaths += `<circle cx="18" cy="18" r="8" fill="#1e293b"></circle>`;
+                svg.innerHTML = svgPaths;
+                $('chart-legend').innerHTML = legendHtml;
+                $('result-bars').innerHTML = barsHtml;
+            },
+
+            reset() {
+                state.currentStep = 0;
+                this.updateView();
+            },
+
+            updateView() {
+                hide('step-home');
+                hide('step-quiz');
+                hide('step-results');
+                hide('header-progress');
+
+                if (state.currentStep === 0) show('step-home');
+                if (state.currentStep === 1) {
+                    show('step-quiz');
+                    show('header-progress');
+                }
+                if (state.currentStep === 2) show('step-results');
+            }
+        };
+
+        // Initialize App
+        app.init();
+    </script>
+</body>
+</html>
